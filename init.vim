@@ -47,6 +47,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 
+" Git
+Plug 'tpope/vim-fugitive'
+
 " End
 Plug 'ryanoasis/vim-devicons'
 
