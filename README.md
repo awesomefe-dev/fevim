@@ -7,39 +7,44 @@
 
 > Clean FrontEnd
 
-## 插件管理 [1][1]
-  vim-plug (https://github.com/junegunn/vim-plug)
+## 插件管理
 
-call plug#begin("~/.vim/plugged")
-  " Plugin Section
-call plug#end()
+vim-plug (https://github.com/junegunn/vim-plug) <sup>[1]</sup>
 
-## 主题 [1][1]
+    call plug#begin("~/.vim/plugged")
+      " Plugin Section
+    call plug#end()
 
-  dracula
+## 主题
 
-## File Explorer 文件管理 [1][1]
+dracula  <sup>[1]</sup>
 
-Plug 'scrooloose/nerdtree'
-Plug 'ryanoasis/vim-devicons'
-  https://github.com/ryanoasis/vim-devicons#installation
-  必须作为最后一项载入
-  安装字体
-    brew tap homebrew/cask-fonts
-    brew install --cask font-hack-nerd-font
+## File Explorer 文件管理
+
+NERDTree  <sup>[1]</sup>
+    Plug 'scrooloose/nerdtree'
+    Plug 'ryanoasis/vim-devicons'
+      https://github.com/ryanoasis/vim-devicons#installation
+      必须作为最后一项载入
+      安装字体
+        brew tap homebrew/cask-fonts
+        brew install --cask font-hack-nerd-font
 
 开关快捷键 Ctrl+b
 
-## Integrated Terminal 集成终端 [1][1]
+## Integrated Terminal 集成终端
+
+Terminal <sup>[1]</sup>
 
 启动终端 Ctrl+b
+
 回到编辑区域 Ctrl+w w
 
 添加区域切换快捷键 (iTerm2 中设置 LeftOption 为 +ESC)
 
-## File Searching 文件查找 [1][1]
+## File Searching 文件查找
 
-fuzzy finder
+fuzzy finder <sup>[1]</sup>
 
 - use silversearcher-ag
 
@@ -47,28 +52,28 @@ https://github.com/ggreer/the_silver_searcher
 
 brew install the_silver_searcher
 
-## IntelliSense and Syntax Highlighting 代码提示和语法高亮 [1][1]
+## IntelliSense and Syntax Highlighting 代码提示和语法高亮
 
-coc.nvim
+coc.nvim <sup>[1]</sup>
 
 TypeScript and TSX support
 
-## Git [2][2]
+## Git
 
-https://github.com/tpope/vim-fugitive tpope/vim-fugitive: fugitive.vim: A Git wrapper so awesome, it should be illegal
+https://github.com/tpope/vim-fugitive tpope/vim-fugitive: fugitive.vim: A Git wrapper so awesome, it should be illegal <sup>[2]</sup>
 
 commands:
 
-:Gstatus
-  sub-commands 
-    g? view sub-commands
-    cc commit
-    ce amend
+    :Gstatus
+      sub-commands 
+        g? view sub-commands
+        cc commit
+        ce amend
 
-:Gdiff
-:Gpush
-:Gpull
-:Gblame
+    :Gdiff
+    :Gpush
+    :Gpull
+    :Gblame
 
 ## TODO: 
 
@@ -76,13 +81,14 @@ commands:
 
 React / Vue / Svelte 
 
-References:
+## References:
 
-[1]: https://medium.com/better-programming/setting-up-neovim-for-web-development-in-2020-d800de3efacd 'Setting Up Neovim for Web Development in 2020'
-[2]: https://dev.to/vshl/my-neovim-setup-31n3 'My Neovim Setup'
+1. [Setting Up Neovim for Web Development in 2020](https://medium.com/better-programming/setting-up-neovim-for-web-development-in-2020-d800de3efacd)
+
+2. [My Neovim Setup](https://dev.to/vshl/my-neovim-setup-31n3)
 
 
-Links:
+## Links:
 
 https://www.freecodecamp.org/news/a-guide-to-modern-web-development-with-neo-vim-333f7efbf8e2/
   denite.nvim https://github.com/Shougo/denite.nvim
