@@ -91,7 +91,10 @@ map <A-r> :w<CR>\lc
 "" i 之前先后退一下光标
 imap <A-s> <Esc>:w<CR>li
 imap <A-w> <Esc>:w<CR>l
+"" save and load config
 imap <A-r> <Esc>:w<CR>l\lc
+imap <A-x> <Esc>:x<CR>
+imap <A-q> <Esc>:q<CR>
 " map <A-s> :w<kEnter>  "Works in normal mode, must press Esc first"
 " imap <A-s> <Esc>:w<kEnter>i "Works in insert mode, saves and puts back in insert mode"
 "" work in MacVim
