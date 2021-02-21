@@ -203,17 +203,13 @@ command! -nargs=0 Dkloadssh :call UseDKFn()
 " PeterLau
 command! -nargs=0 Plloadssh :call UsePKFn('peter')
 
+" CustomFn CFn_RunFile
 function! RunFile()
   let l:filename=expand("%:t")
   let l:filedir=expand("%:p:h")
   let l:filetype=&ft
   " set autochdir
-  " :! "cd " . l:filedir . " & ./" . l:filename
-  echo "". l:filedir .""
-  
-  " cd "". l:filedir .""
   cd %:p:h
-  pwd
   !./%
 endfunction
 
