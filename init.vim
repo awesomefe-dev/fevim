@@ -2,6 +2,20 @@
 set nu
 set rtp+=$FEVIM
 
+" indent  
+set sw=2   " shiftwidth
+set ts=2   " tabstop
+set sts=2  " softtabstop
+set et     " expandtabs expand tabs to spaces
+
+" buffers 
+map <C-J> :bnext<CR>
+map <C-K> :bprev<CR>
+nnoremap <Leader>b :ls<CR>:b<Space>
+
+" copy/paste 
+
+" color
 if (has("termguicolors"))
  set termguicolors
 endif
@@ -9,13 +23,38 @@ syntax enable
 
 set splitright
 set splitbelow
+
+" Config Management
+" function! ConfAction(action)
+"   let $CUR_CONF=$FEVIM . "/init.vim"
+"   echo $CUR_CONF
+"   if a:action == "edit"
+"     e $CUR_CONF
+"   endif 
+"   if a:action == "reload"
+"     so $CUR_CONF
+"   endif 
+" endfunction
+" edit
+" save in env var
+let $CUR_CONF=$FEVIM . "/init.vim"
+" nnoremap <Leader>ve :call ConfAction("edit")<CR>
+nnoremap <Leader>ve :e $CUR_CONF<CR>
+" nnoremap confe :e $CUR_CONF<CR> " ESC_confe
+" reload
+" nnoremap <Leader>vr :call ConfAction("reload")<CR>
+nnoremap <Leader>vr :so $CUR_CONF<CR>
+" nnoremap confr :source $CUR_CONF<CR>
+
+" Terminal
 " 用 esc 键将 terminal 变为 normal mode
 tnoremap <Esc> <C-\><C-n>
 " 在 insert mode 启动 terminal
 au BufEnter * if &buftype == 'terminal' | :startinsert | endif
 " 用 ctrl+n 启动 terminal
 function! OpenTerminal()
-  split term://zsh
+  let $CURRENT_DIR=expand('%:p:h')
+  split term://zsh !cd $CURRENT_DIR
   resize 10
 endfunction
 nnoremap <C-n> :call OpenTerminal()<CR>
@@ -29,6 +68,9 @@ nnoremap <A-h> <C-w>h
 nnoremap <A-j> <C-w>j
 nnoremap <A-k> <C-w>k
 nnoremap <A-l> <C-w>l
+
+" FileType
+au! BufNewFile,BufRead *.svelte set ft=html
 
 " Plugin
 
