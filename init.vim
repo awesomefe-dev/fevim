@@ -50,6 +50,9 @@ Plug 'peitalin/vim-jsx-typescript'
 " Git
 Plug 'tpope/vim-fugitive'
 
+"
+Plug 'editorconfig/editorconfig-vim'
+
 " End
 Plug 'ryanoasis/vim-devicons'
 
