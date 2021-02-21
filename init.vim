@@ -64,6 +64,7 @@ nnoremap <Leader>lc :so $CUR_CONF<CR>
 " Terminal
 " 用 esc 键将 terminal 变为 normal mode
 tnoremap <Esc> <C-\><C-n>
+" tnoremap <c-b> <c-\><c-n>
 " 在 insert mode 启动 terminal
 au BufEnter * if &buftype == 'terminal' | :startinsert | endif
 " 用 ctrl+n 启动 terminal
@@ -219,3 +220,10 @@ endfunction
 
 function! RunProj()
 endfunction
+
+augroup terminal
+  autocmd!
+  " autocmd TermClose * if getline('$') == 'Exit 0' | close | endif 
+  " autocmd TermClose * echom "GetLine" . getline('$') . "END"
+  au TermClose * close
+augroup end
