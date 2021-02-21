@@ -2,19 +2,34 @@
 set nu
 set rtp+=$FEVIM
 set ignorecase
-set wildignorecase
+set wildignorecase " command mode case insensitive
 set smartcase " override by /target\c \C
 
 set listchars=space:.
 
 set so=7
 
+set autochdir
+
+" TODO: use status line
+" noremap <silent> <Leader><Leader>p :echo expand('%:p')<CR>
+" noremap <Leader><Leader>p :echo expand('%:p')<CR><CR>
+
+" remap q
+nnoremap <Leader>q q
+nnoremap q :q<CR>
+
+
+let $XDG_CONFIG_HOME=$XDG_CONFIG_HOME_BAK
+let NVIM_HOME=$FEVIM . "/nvim/"
 
 " misc
 noremap <Leader>nh :nohl<CR>
 noremap <Leader>q :q<CR>
 noremap <Leader>x :wq<CR>
-noremap <Leader>tp :tab sb 2<CR>
+" noremap <Leader>tp :tab sb 2<CR>
+" vert belowright sb 2
+" sb 2
 
 " indent  
 set sw=2   " shiftwidth
@@ -25,7 +40,7 @@ set et     " expandtabs expand tabs to spaces
 " buffers 
 map <C-J> :bnext<CR>
 map <C-K> :bprev<CR>
-nnoremap <Leader>b :ls<CR>:b<Space>
+nnoremap <Leader>l :ls<CR>:b<Space>
 
 " copy/paste
 
@@ -51,7 +66,7 @@ set splitbelow
 " endfunction
 " edit
 " save in env var
-let $CUR_CONF=$FEVIM . "/init.vim"
+let $CUR_CONF=$FEVIM . "/nvim/init.vim"
 " nnoremap <Leader>ve :call ConfAction("edit")<CR>
 nnoremap <Leader>ec :e $CUR_CONF<CR>
 " nnoremap confe :e $CUR_CONF<CR> " ESC_confe
@@ -84,19 +99,20 @@ noremap <Leader>h :h
 " Save
 "" Works in normal mode, must press Esc first"
 map <A-s> :w<CR>
-map <A-w> :w<CR>
+" map <A-w> :w<CR>
 map <A-r> :w<CR>\lc
+map <A-x> :x<CR>
 map <A-q> <CR>:q<CR>
 
 "" Works in insert mode, saves and puts back in insert mode"
 "" i 后边不能有任何字符，否则会插入文件中
 "" i 之前先后退一下光标
-imap <A-s> <Esc>:w<CR>li
-imap <A-w> <Esc>:w<CR>l
+imap <A-s> <Esc>:w<CR>l
+imap <A-w> <Esc>:w<CR>li
 "" save and load config
 imap <A-r> <Esc>:w<CR>l\lc
 imap <A-x> <Esc>:x<CR>
-imap <A-q> <Esc>:q<CR>
+" imap <A-q> <Esc>:wq<CR>
 " map <A-s> :w<kEnter>  "Works in normal mode, must press Esc first"
 " imap <A-s> <Esc>:w<kEnter>i "Works in insert mode, saves and puts back in insert mode"
 "" work in MacVim
@@ -138,8 +154,52 @@ Plug 'peitalin/vim-jsx-typescript'
 " Git
 Plug 'tpope/vim-fugitive'
 
-"
+" EditorConfig
 Plug 'editorconfig/editorconfig-vim'
+
+" Linting
+Plug 'dense-analysis/ale'
+
+" Project level Find && Replace
+" Plug 'stefandtw/quickfix-reflector.vim'
+
+" Project File Switch
+" Plug 'tpope/vim-projectionist'
+
+" Test
+Plug 'vim-test/vim-test'
+
+"" this part is optional, but I prefer using neoterm as the vim-test runner
+Plug 'kassio/neoterm'
+let test#strategy = "neoterm"
+
+" Templates
+Plug 'aperezdc/vim-template'
+
+" Comment
+Plug 'tpope/vim-commentary'
+
+" TODO: loop thought append list
+" TODO: autoload ./plug/ ./config/
+" so '$FEVIM/nvim/plug/elixir.vim'
+
+"" Elixir
+Plug 'amiralies/coc-elixir', {'do': 'yarn install && yarn prepack'}
+Plug 'elixir-editors/vim-elixir'
+
+"" Go
+Plug 'fatih/vim-go'
+" GoInstallBinaries
+
+"" Rust
+" :CocInstall coc-rust-analyzer
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+
+"" Java
+"Plug ‘fatih/vim-go’
+
+"" Python
+"Plug ‘fatih/vim-go’
 
 " End
 Plug 'ryanoasis/vim-devicons'
@@ -160,13 +220,17 @@ let g:NERDTreeStatusline = ''
 " 仅有 NERDTree 时关闭 neovim
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " toggle
-nnoremap <silent> <C-b> :NERDTreeToggle<CR>
+" nnoremap <silent> <C-b> :NERDTreeToggle<CR>
+nnoremap <silent> <Leader>b :NERDTreeToggle<CR>
 " set encoding=UTF-8 " 字体/图标配置 no need in Neovim
 
 " # fugitive 
 noremap <Leader>gs :Gstatus<CR>
 noremap <Leader>gp :Gpush<CR>
 noremap <Leader>gl :Gpull<CR>
+
+" # vim-plug
+noremap <Leader>ii :PlugInstall<CR>
 
 " # fzf
 nnoremap <C-p> :FZF<CR>
@@ -181,7 +245,7 @@ let g:fzf_action = {
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
 " # coc.vim
-let g:coc_config_home = $FEVIM . '/config'
+let g:coc_config_home = $FEVIM . '/nvim/config'
 let g:coc_global_extensions = [
   \ 'coc-emmet',
   \ 'coc-css',
@@ -190,6 +254,9 @@ let g:coc_global_extensions = [
   \ 'coc-prettier',
   \ 'coc-tsserver'
   \]
+
+let s:dev_conf=$FEVIM . '/nvim/dev.vim'
+exec "source " . s:dev_conf
 
 command! -nargs=+ Say :echo "<args>"
 
@@ -227,3 +294,18 @@ augroup terminal
   " autocmd TermClose * echom "GetLine" . getline('$') . "END"
   au TermClose * close
 augroup end
+
+" templates (custom) use vime-template
+" if has("autocmd")
+"   let templates_dir=NVIM_HOME . "templates"
+"   silent echo templates_dir
+"   aug templates
+"     au BufNewFile *.sh 0r templates_dir/skeleton.sh
+"   aug END
+" endif
+
+" autocmd insertFile
+" insert (en-mode)
+" count shift pressed count 
+" autocmd leave insert
+" should call press shift

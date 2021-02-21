@@ -1,2 +1,2 @@
-autoload/plug.vim
-data
+coc
+configstore
