@@ -1,10 +1,20 @@
 " Basic
 set nu
 set rtp+=$FEVIM
+set ignorecase
+set wildignorecase
+set smartcase " override by /target\c \C
+
+set listchars=space:.
+
+set so=7
+
 
 " misc
-noremap <Leader>nh :nohl<CR>       
-" set encoding=UTF-8 " 字体/图标配置 no need in Neovim
+noremap <Leader>nh :nohl<CR>
+noremap <Leader>q :q<CR>
+noremap <Leader>x :wq<CR>
+noremap <Leader>tp :tab sb 2<CR>
 
 " indent  
 set sw=2   " shiftwidth
@@ -17,7 +27,7 @@ map <C-J> :bnext<CR>
 map <C-K> :bprev<CR>
 nnoremap <Leader>b :ls<CR>:b<Space>
 
-" copy/paste 
+" copy/paste
 
 " color
 if (has("termguicolors"))
@@ -67,16 +77,21 @@ endfunction
 nnoremap <C-n> :call OpenTerminal()<CR>
 
 " Help
-noremap <Leader>h :h
+noremap <Leader>h :h 
 " nnoremap <Leader>h :h
 
 " Save
 "" Works in normal mode, must press Esc first"
 map <A-s> :w<CR>
+map <A-w> :w<CR>
+map <A-r> :w<CR>\lc
+
 "" Works in insert mode, saves and puts back in insert mode"
 "" i 后边不能有任何字符，否则会插入文件中
+"" i 之前先后退一下光标
 imap <A-s> <Esc>:w<CR>li
 imap <A-w> <Esc>:w<CR>l
+imap <A-r> <Esc>:w<CR>l\lc
 " map <A-s> :w<kEnter>  "Works in normal mode, must press Esc first"
 " imap <A-s> <Esc>:w<kEnter>i "Works in insert mode, saves and puts back in insert mode"
 "" work in MacVim
@@ -85,7 +100,8 @@ imap <A-w> <Esc>:w<CR>l
 
 
 " panels 切换键
-tnoremap <A-h> <C-\><C-n><C-w>h
+"" terminal mode
+tnoremap <A-h> <C-\><C-n><C-w>h 
 tnoremap <A-j> <C-\><C-n><C-w>j
 tnoremap <A-k> <C-\><C-n><C-w>k
 tnoremap <A-l> <C-\><C-n><C-w>l
@@ -140,6 +156,7 @@ let g:NERDTreeStatusline = ''
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " toggle
 nnoremap <silent> <C-b> :NERDTreeToggle<CR>
+" set encoding=UTF-8 " 字体/图标配置 no need in Neovim
 
 " # fugitive 
 noremap <Leader>gs :Gstatus<CR>
@@ -168,3 +185,37 @@ let g:coc_global_extensions = [
   \ 'coc-prettier',
   \ 'coc-tsserver'
   \]
+
+command! -nargs=+ Say :echo "<args>"
+
+" use private key
+function! UseDKFn()
+  echo 'use default key'
+endfunction
+
+function! UsePKFn() " (name)
+  echo 'use default key'
+  echom a:name
+endfunction
+
+" DefaultKey
+command! -nargs=0 Dkloadssh :call UseDKFn()
+" PeterLau
+command! -nargs=0 Plloadssh :call UsePKFn('peter')
+
+function! RunFile()
+  let l:filename=expand("%:t")
+  let l:filedir=expand("%:p:h")
+  let l:filetype=&ft
+  " set autochdir
+  " :! "cd " . l:filedir . " & ./" . l:filename
+  echo "". l:filedir .""
+  
+  " cd "". l:filedir .""
+  cd %:p:h
+  pwd
+  !./%
+endfunction
+
+function! RunProj()
+endfunction
