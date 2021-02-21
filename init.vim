@@ -2,6 +2,10 @@
 set nu
 set rtp+=$FEVIM
 
+" misc
+noremap <Leader>nh :nohl<CR>       
+" set encoding=UTF-8 " 字体/图标配置 no need in Neovim
+
 " indent  
 set sw=2   " shiftwidth
 set ts=2   " tabstop
@@ -39,11 +43,12 @@ set splitbelow
 " save in env var
 let $CUR_CONF=$FEVIM . "/init.vim"
 " nnoremap <Leader>ve :call ConfAction("edit")<CR>
-nnoremap <Leader>ve :e $CUR_CONF<CR>
+nnoremap <Leader>ec :e $CUR_CONF<CR>
 " nnoremap confe :e $CUR_CONF<CR> " ESC_confe
 " reload
 " nnoremap <Leader>vr :call ConfAction("reload")<CR>
-nnoremap <Leader>vr :so $CUR_CONF<CR>
+"" lc load_config
+nnoremap <Leader>lc :so $CUR_CONF<CR>
 " nnoremap confr :source $CUR_CONF<CR>
 
 " Terminal
@@ -54,10 +59,30 @@ au BufEnter * if &buftype == 'terminal' | :startinsert | endif
 " 用 ctrl+n 启动 terminal
 function! OpenTerminal()
   let $CURRENT_DIR=expand('%:p:h')
-  split term://zsh !cd $CURRENT_DIR
+  " :h te
+  split term://$CURRENT_DIR//zsh
+  " !cd $CURRENT_DIR
   resize 10
 endfunction
 nnoremap <C-n> :call OpenTerminal()<CR>
+
+" Help
+noremap <Leader>h :h
+" nnoremap <Leader>h :h
+
+" Save
+"" Works in normal mode, must press Esc first"
+map <A-s> :w<CR>
+"" Works in insert mode, saves and puts back in insert mode"
+"" i 后边不能有任何字符，否则会插入文件中
+imap <A-s> <Esc>:w<CR>li
+imap <A-w> <Esc>:w<CR>l
+" map <A-s> :w<kEnter>  "Works in normal mode, must press Esc first"
+" imap <A-s> <Esc>:w<kEnter>i "Works in insert mode, saves and puts back in insert mode"
+"" work in MacVim
+" map <D-s> :w<CR>  "Works in normal mode, must press Esc first"
+" imap <D-s> <Esc>:w<CR>i "Works in insert mode, saves and puts back in insert mode"
+
 
 " panels 切换键
 tnoremap <A-h> <C-\><C-n><C-w>h
@@ -113,10 +138,13 @@ let g:NERDTreeStatusline = ''
 
 " 仅有 NERDTree 时关闭 neovim
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" Toggle
+" toggle
 nnoremap <silent> <C-b> :NERDTreeToggle<CR>
 
-" set encoding=UTF-8 " 字体/图标配置 no need in Neovim
+" # fugitive 
+noremap <Leader>gs :Gstatus<CR>
+noremap <Leader>gp :Gpush<CR>
+noremap <Leader>gl :Gpull<CR>
 
 " # fzf
 nnoremap <C-p> :FZF<CR>
