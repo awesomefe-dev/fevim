@@ -85,7 +85,7 @@ noremap <Leader>h :h
 map <A-s> :w<CR>
 map <A-w> :w<CR>
 map <A-r> :w<CR>\lc
-map <A-q> :q<CR>
+map <A-q> <CR>:q<CR>
 
 "" Works in insert mode, saves and puts back in insert mode"
 "" i 后边不能有任何字符，否则会插入文件中
