@@ -105,7 +105,8 @@ au! BufNewFile,BufRead *.svelte set ft=html
 " set nofoldenable
 set foldlevelstart=99
 
-nnoremap <silent><c-j> :update<cr>
+" 与 buffer 切换的映射冲突
+" nnoremap <silent><c-j> :update<cr>
 vnoremap <silent><c-j> <c-c>:update<cr>gv
 inoremap <silent><c-j> <c-c>:update<cr>
 
@@ -115,10 +116,12 @@ nnoremap q :q<CR>
 
 
 let $XDG_CONFIG_HOME=$XDG_CONFIG_HOME_BAK
-let NVIM_HOME=$FEVIM . "/nvim/"
+let s:NVIM_HOME=$FEVIM . "/nvim/"
 
 " misc
-noremap <Leader>nh :nohl<CR>
+" noremap <Leader>nh :nohl<CR>
+" fn+f9
+noremap <f9> :nohl<CR>
 noremap <Leader>q :q<CR>
 noremap <Leader>x :wq<CR>
 " noremap <Leader>tp :tab sb 2<CR>
@@ -132,8 +135,8 @@ set sts=2  " softtabstop
 set et     " expandtabs expand tabs to spaces
 
 " buffers 
-map <C-J> :bnext<CR>
-map <C-K> :bprev<CR>
+nnoremap <C-J> :bnext<CR>
+nnoremap <C-K> :bprev<CR>
 nnoremap <Leader>l :ls<CR>:b<Space>
 
 " copy/paste
@@ -180,7 +183,7 @@ au BufEnter * if &buftype == 'terminal' | :startinsert | endif
 function! OpenTerminal()
   let $CURRENT_DIR=expand('%:p:h')
   " :h te
-  split term://$CURRENT_DIR//zsh
+  split term://$CURRENT_DIR//zsh:alias e=exit
   " !cd $CURRENT_DIR
   resize 10
 endfunction
@@ -216,10 +219,14 @@ imap <A-x> <Esc>:x<CR>
 
 " panels 切换键
 "" terminal mode
-tnoremap <A-h> <C-\><C-n><C-w>h 
-tnoremap <A-j> <C-\><C-n><C-w>j
-tnoremap <A-k> <C-\><C-n><C-w>k
-tnoremap <A-l> <C-\><C-n><C-w>l
+tnoremap <A-h> <C-\><C-N><C-w>h
+tnoremap <A-j> <C-\><C-N><C-w>j
+tnoremap <A-k> <C-\><C-N><C-w>k
+tnoremap <A-l> <C-\><C-N><C-w>l
+inoremap <A-h> <C-\><C-N><C-w>h
+inoremap <A-j> <C-\><C-N><C-w>j
+inoremap <A-k> <C-\><C-N><C-w>k
+inoremap <A-l> <C-\><C-N><C-w>l
 nnoremap <A-h> <C-w>h
 nnoremap <A-j> <C-w>j
 nnoremap <A-k> <C-w>k
@@ -250,6 +257,7 @@ nnoremap <silent> <Leader>b :NERDTreeToggle<CR>
 " # fugitive 
 noremap <Leader>gs :Gstatus<CR>
 noremap <Leader>gp :Gpush<CR>
+noremap <Leader>gu :Gpush -u origin HEAD<CR>
 noremap <Leader>gl :Gpull<CR>
 
 " # vim-plug
@@ -279,10 +287,17 @@ let g:coc_global_extensions = [
   \ 'coc-tsserver'
   \]
 
-" Misc 
 
+" Dev
 let s:dev_conf=$FEVIM . '/nvim/dev.vim'
 exec "source " . s:dev_conf
+
+" ## Django
+autocmd FileType python set sw=4
+autocmd FileType python set ts=4
+autocmd FileType python set sts=4
+" Misc 
+
 
 command! -nargs=+ Say :echo "<args>"
 
@@ -318,6 +333,19 @@ endfunction
 function! RunProj()
 endfunction
 
+function! FullScreen()
+  let l:scripts_home=s:NVIM_HOME . "scripts/"
+  " echo l:scripts_home 
+  " echo l:scripts_home . 'gofs.applescript'
+  let l:cmd='!cd ' . l:scripts_home . ' && ./gofs.applescript'
+  " echo l:cmd 
+  :silent exec l:cmd
+endfunction
+
+" 玄学问题? 偶尔 A-f 下移光标
+" map <A-f> :call FullScreen()<CR>
+map <Leader><Leader>f :call FullScreen()<CR>
+
 augroup terminal
   autocmd!
   " autocmd TermClose * if getline('$') == 'Exit 0' | close | endif 
@@ -327,13 +355,16 @@ augroup end
 
 " templates (custom) use vime-template
 " if has("autocmd")
-"   let templates_dir=NVIM_HOME . "templates"
+"   let templates_dir=s:NVIM_HOME . "templates"
 "   silent echo templates_dir
 "   aug templates
 "     au BufNewFile *.sh 0r templates_dir/skeleton.sh
 "   aug END
 " endif
 
+" TODO: echo extensions >> .gitignore
+
+" TODO: 处理中英文切换
 " autocmd insertFile
 " insert (en-mode)
 " count shift pressed count 
