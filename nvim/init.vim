@@ -1,14 +1,21 @@
 " TOC 
+"   ENV
 "   Plugin 
 "   Basic 
 "   PluginConfig
 "   Misc
 
+let $FEVIM_HOME=$FEVIM . '/nvim'
+let $FEVIM_CONF=$FEVIM_HOME . '/init.vim'
+let $FEVIM_DATA=$FEVIM_HOME . '/data'
+let $FEVIM_SCRIPTS=$FEVIM_HOME . '/scripts'
+let $FEVIM_PLUG=$FEVIM_DATA . '/plugged'
+
 " Plugin
 
 " :h stdpath('data')
 " call plug#begin( stdpath('data') . '/plugged' )
-call plug#begin($FEVIM . '/nvim/data/plugged')
+call plug#begin($FEVIM_PLUG)
 
 Plug 'dracula/vim'
 
@@ -116,6 +123,7 @@ nnoremap q :q<CR>
 
 
 let $XDG_CONFIG_HOME=$XDG_CONFIG_HOME_BAK
+let $VIMTERM=1
 let s:NVIM_HOME=$FEVIM . "/nvim/"
 
 " misc
@@ -181,9 +189,10 @@ tnoremap <Esc> <C-\><C-n>
 au BufEnter * if &buftype == 'terminal' | :startinsert | endif
 " 用 ctrl+n 启动 terminal
 function! OpenTerminal()
-  let $CURRENT_DIR=expand('%:p:h')
+  let $VIMTERM=1
+  let l:CUR_DIR=expand('%:p:h')
   " :h te
-  split term://$CURRENT_DIR//zsh:alias e=exit
+  :silent exec "split term://" . l:CUR_DIR . "//zsh"
   " !cd $CURRENT_DIR
   resize 10
 endfunction
@@ -321,17 +330,33 @@ command! -nargs=0 Pkloadssh :call UsePKFn()
 
 " CustomFn CFn_RunFile
 " Rust exec for lots of languages
+" 依赖输入的情况
+function! RunSh()
+  :silent exec "!sh " . "./" . expand("%:t")
+endfunction
+
+function! RunExec()
+  " !./%
+  :silent exec "!./" . expand("%:t")
+endfunction
+
 function! RunFile()
   let l:filename=expand("%:t")
   let l:filedir=expand("%:p:h")
   let l:filetype=&ft
   " set autochdir
   cd %:p:h
-  !./%
+  if l:filetype == "sh"
+    :call RunSh()
+  else
+    :call RunExec()
+  endif
 endfunction
 
 function! RunProj()
 endfunction
+
+map <silent> <Leader><Leader>r :call RunFile()<CR>
 
 function! FullScreen()
   let l:scripts_home=s:NVIM_HOME . "scripts/"
@@ -352,6 +377,10 @@ augroup terminal
   " autocmd TermClose * echom "GetLine" . getline('$') . "END"
   au TermClose * close
 augroup end
+
+" Scripts
+
+noremap <Leader><Leader>m :silent exec "!" . $FEVIM_SCRIPTS . "/playfb2k.applescript"<CR>
 
 " templates (custom) use vime-template
 " if has("autocmd")

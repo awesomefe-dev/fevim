@@ -13,3 +13,4 @@ alias nvv=$NVIM' -O'
 alias nvt=$NVIM' -p'
 
 # fnv
+alias fnv=$NVIM" -u $FEVIM/nvim/fsmode.vim"

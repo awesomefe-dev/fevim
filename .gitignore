@@ -1,3 +1,5 @@
 coc
 configstore
 .elixir_ls
+memos.json
+extensions
