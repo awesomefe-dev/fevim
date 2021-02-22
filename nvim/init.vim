@@ -1,3 +1,83 @@
+" TOC 
+"   Plugin 
+"   Basic 
+"   PluginConfig
+"   Misc
+
+" Plugin
+
+" :h stdpath('data')
+" call plug#begin( stdpath('data') . '/plugged' )
+call plug#begin($FEVIM . '/nvim/data/plugged')
+
+Plug 'dracula/vim'
+
+Plug 'scrooloose/nerdtree'
+
+Plug 'junegunn/fzf', { 'dir': '~/.nvimfzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" TypeScript and TSX support
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+
+" Git
+Plug 'tpope/vim-fugitive'
+
+" EditorConfig
+Plug 'editorconfig/editorconfig-vim'
+
+" Linting
+Plug 'dense-analysis/ale'
+
+" Project level Find && Replace
+" Plug 'stefandtw/quickfix-reflector.vim'
+
+" Project File Switch
+" Plug 'tpope/vim-projectionist'
+
+" Test
+Plug 'vim-test/vim-test'
+
+"" this part is optional, but I prefer using neoterm as the vim-test runner
+Plug 'kassio/neoterm'
+let test#strategy = "neoterm"
+
+" Templates
+Plug 'aperezdc/vim-template'
+
+" Comment
+Plug 'tpope/vim-commentary'
+
+" TODO: loop thought append list
+" TODO: autoload ./plug/ ./config/
+" so '$FEVIM/nvim/plug/elixir.vim'
+
+"" Elixir
+" Plug 'amiralies/coc-elixir', {'do': 'yarn install && yarn prepack'}
+Plug 'elixir-lsp/coc-elixir', {'do': 'yarn install && yarn prepack'}
+Plug 'elixir-editors/vim-elixir'
+
+"" Go
+Plug 'fatih/vim-go'
+" GoInstallBinaries
+
+"" Rust
+" :CocInstall coc-rust-analyzer
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+
+"" Java
+"Plug ‘fatih/vim-go’
+
+"" Python
+"Plug ‘fatih/vim-go’
+
+" End
+Plug 'ryanoasis/vim-devicons'
+
+call plug#end()
 " Basic
 set nu
 set rtp+=$FEVIM
@@ -14,6 +94,20 @@ set autochdir
 " TODO: use status line
 " noremap <silent> <Leader><Leader>p :echo expand('%:p')<CR>
 " noremap <Leader><Leader>p :echo expand('%:p')<CR><CR>
+
+autocmd FileType * setl sw=2 sts=2 ts=2 et
+
+" Svelte
+au! BufNewFile,BufRead *.svelte set ft=html
+
+
+" set foldmethod=syntax
+" set nofoldenable
+set foldlevelstart=99
+
+nnoremap <silent><c-j> :update<cr>
+vnoremap <silent><c-j> <c-c>:update<cr>gv
+inoremap <silent><c-j> <c-c>:update<cr>
 
 " remap q
 nnoremap <Leader>q q
@@ -134,77 +228,6 @@ nnoremap <A-l> <C-w>l
 " FileType
 au! BufNewFile,BufRead *.svelte set ft=html
 
-" Plugin
-
-call plug#begin( stdpath('data') . '/plugged' )
-
-Plug 'dracula/vim'
-
-Plug 'scrooloose/nerdtree'
-
-Plug 'junegunn/fzf', { 'dir': '~/.nvimfzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" TypeScript and TSX support
-Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
-
-" Git
-Plug 'tpope/vim-fugitive'
-
-" EditorConfig
-Plug 'editorconfig/editorconfig-vim'
-
-" Linting
-Plug 'dense-analysis/ale'
-
-" Project level Find && Replace
-" Plug 'stefandtw/quickfix-reflector.vim'
-
-" Project File Switch
-" Plug 'tpope/vim-projectionist'
-
-" Test
-Plug 'vim-test/vim-test'
-
-"" this part is optional, but I prefer using neoterm as the vim-test runner
-Plug 'kassio/neoterm'
-let test#strategy = "neoterm"
-
-" Templates
-Plug 'aperezdc/vim-template'
-
-" Comment
-Plug 'tpope/vim-commentary'
-
-" TODO: loop thought append list
-" TODO: autoload ./plug/ ./config/
-" so '$FEVIM/nvim/plug/elixir.vim'
-
-"" Elixir
-Plug 'amiralies/coc-elixir', {'do': 'yarn install && yarn prepack'}
-Plug 'elixir-editors/vim-elixir'
-
-"" Go
-Plug 'fatih/vim-go'
-" GoInstallBinaries
-
-"" Rust
-" :CocInstall coc-rust-analyzer
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-
-"" Java
-"Plug ‘fatih/vim-go’
-
-"" Python
-"Plug ‘fatih/vim-go’
-
-" End
-Plug 'ryanoasis/vim-devicons'
-
-call plug#end()
 
 " Config
 
@@ -246,6 +269,7 @@ let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
 " # coc.vim
 let g:coc_config_home = $FEVIM . '/nvim/config'
+let g:coc_data_home = $FEVIM
 let g:coc_global_extensions = [
   \ 'coc-emmet',
   \ 'coc-css',
@@ -255,27 +279,33 @@ let g:coc_global_extensions = [
   \ 'coc-tsserver'
   \]
 
+" Misc 
+
 let s:dev_conf=$FEVIM . '/nvim/dev.vim'
 exec "source " . s:dev_conf
 
 command! -nargs=+ Say :echo "<args>"
 
-" use private key
+" use default key
 function! UseDKFn()
   echo 'use default key'
+  let $GIT_SSH_COMMAND="ssh"
 endfunction
 
+" use private key
 function! UsePKFn() " (name)
-  echo 'use default key'
-  echom a:name
+  " echom a:name
+  echo 'use custom key'
+  let $GIT_SSH_COMMAND="ssh -i " . $MYKEY
 endfunction
 
 " DefaultKey
 command! -nargs=0 Dkloadssh :call UseDKFn()
 " PeterLau
-command! -nargs=0 Plloadssh :call UsePKFn('peter')
+command! -nargs=0 Pkloadssh :call UsePKFn()
 
 " CustomFn CFn_RunFile
+" Rust exec for lots of languages
 function! RunFile()
   let l:filename=expand("%:t")
   let l:filedir=expand("%:p:h")
