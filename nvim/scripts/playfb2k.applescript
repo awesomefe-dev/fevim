@@ -9,4 +9,5 @@ tell application "System Events" to tell process "foobar2000"
 		click menu item "Pause" of menu 1
 	end tell
 	set visible to false
+  # TODO: back to vim screen
 end tell

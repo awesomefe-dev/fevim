@@ -1,6 +1,6 @@
 " load elixir.vim
-exec "so " . $FEVIM . '/nvim/config/elixir.vim'
-exec "so " . $FEVIM . '/nvim/config/go.vim'
+exec "so " . $FEVIM_CONF . '/elixir.vim'
+exec "so " . $FEVIM_CONF . '/go.vim'
 
 let g:ale_fixers = { 'elixir': ['mix_format'] }
 

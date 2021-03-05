@@ -7,7 +7,27 @@
     }
   },
   "rust-analyzer.server.path": "~/.local/bin/rust-analyzer",
-  "coc.preferences.formatOnSaveFiletypes": ["javascript", "typescript", "typescriptreact", "json", "javascriptreact", "typescript.tsx", "css", "markdown"],
-  "eslint.filetypes": ["javascript", "typescript", "typescriptreact", "javascriptreact", "typescript.tsx"],
-  "coc.preferences.diagnostic.virtualText": true
+  "coc.preferences.formatOnSaveFiletypes": [
+    "html",
+    "javascript",
+    "typescript",
+    "typescriptreact",
+    "json",
+    "javascriptreact",
+    "typescript.tsx",
+    "css",
+    "markdown"
+  ],
+  "eslint.filetypes": [
+    "javascript",
+    "typescript",
+    "typescriptreact",
+    "javascriptreact",
+    "typescript.tsx"
+  ],
+  "coc.preferences.diagnostic.virtualText": true,
+  "html.format.enable": false,
+  "html.autoClosingTags": true,
+  "typescript.suggest.autoImports": true,
+  "workspace.ignoredFiletypes": ["markdown", "log", "txt", "help", "asm"]
 }

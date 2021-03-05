@@ -5,87 +5,34 @@
 "   PluginConfig
 "   Misc
 
+" ENV 
+
+let $XDG_CONFIG_HOME=$XDG_CONFIG_HOME_BAK
+let $VIMTERM=1
+
 let $FEVIM_HOME=$FEVIM . '/nvim'
-let $FEVIM_CONF=$FEVIM_HOME . '/init.vim'
+let $FEVIM_INIT=$FEVIM_HOME . '/init.vim'
+let $FEVIM_CONF=$FEVIM_HOME . '/conf'
 let $FEVIM_DATA=$FEVIM_HOME . '/data'
 let $FEVIM_SCRIPTS=$FEVIM_HOME . '/scripts'
 let $FEVIM_PLUG=$FEVIM_DATA . '/plugged'
+
+
 
 " Plugin
 
 " :h stdpath('data')
 " call plug#begin( stdpath('data') . '/plugged' )
-call plug#begin($FEVIM_PLUG)
 
-Plug 'dracula/vim'
+let $FEVIM_PLUG_CONF=$FEVIM_HOME . '/plug.vim'
+exec "source " . $FEVIM_PLUG_CONF
+nnoremap <Leader>ep :e $FEVIM_PLUG_CONF<CR>
 
-Plug 'scrooloose/nerdtree'
 
-Plug 'junegunn/fzf', { 'dir': '~/.nvimfzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" TypeScript and TSX support
-Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
-
-" Git
-Plug 'tpope/vim-fugitive'
-
-" EditorConfig
-Plug 'editorconfig/editorconfig-vim'
-
-" Linting
-Plug 'dense-analysis/ale'
-
-" Project level Find && Replace
-" Plug 'stefandtw/quickfix-reflector.vim'
-
-" Project File Switch
-" Plug 'tpope/vim-projectionist'
-
-" Test
-Plug 'vim-test/vim-test'
-
-"" this part is optional, but I prefer using neoterm as the vim-test runner
-Plug 'kassio/neoterm'
-let test#strategy = "neoterm"
-
-" Templates
-Plug 'aperezdc/vim-template'
-
-" Comment
-Plug 'tpope/vim-commentary'
-
-" TODO: loop thought append list
-" TODO: autoload ./plug/ ./config/
-" so '$FEVIM/nvim/plug/elixir.vim'
-
-"" Elixir
-" Plug 'amiralies/coc-elixir', {'do': 'yarn install && yarn prepack'}
-Plug 'elixir-lsp/coc-elixir', {'do': 'yarn install && yarn prepack'}
-Plug 'elixir-editors/vim-elixir'
-
-"" Go
-Plug 'fatih/vim-go'
-" GoInstallBinaries
-
-"" Rust
-" :CocInstall coc-rust-analyzer
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-
-"" Java
-"Plug ‘fatih/vim-go’
-
-"" Python
-"Plug ‘fatih/vim-go’
-
-" End
-Plug 'ryanoasis/vim-devicons'
-
-call plug#end()
 " Basic
+
+set hidden
 set nu
 set rtp+=$FEVIM
 set ignorecase
@@ -98,40 +45,135 @@ set so=7
 
 set autochdir
 
-" TODO: use status line
+let s:STATUS_CONF=$FEVIM_CONF . '/status.vim'
+exec "source " . s:STATUS_CONF
+
 " noremap <silent> <Leader><Leader>p :echo expand('%:p')<CR>
 " noremap <Leader><Leader>p :echo expand('%:p')<CR><CR>
 
+" For All filetypes
 autocmd FileType * setl sw=2 sts=2 ts=2 et
+" autocmd FileType asm setl sw=4 sts=4 ts=4 et
 
 " Svelte
 au! BufNewFile,BufRead *.svelte set ft=html
-
 
 " set foldmethod=syntax
 " set nofoldenable
 set foldlevelstart=99
 
-" 与 buffer 切换的映射冲突
+" 与 buffer 切换的映射 冲突 暂时注释
 " nnoremap <silent><c-j> :update<cr>
 vnoremap <silent><c-j> <c-c>:update<cr>gv
 inoremap <silent><c-j> <c-c>:update<cr>
 
-" remap q
-nnoremap <Leader>q q
-nnoremap q :q<CR>
+
+" Plugin Config
+
+colorscheme dracula
+
+" # vim template
+let g:email="superpeterlau@outlook.com"
+let g:username="Peter Lau"
+
+" # NERDTree
+let g:NERDTreeShowHidden = 1
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeIgnore = []
+let g:NERDTreeStatusline = ''
+
+" 仅有 NERDTree 时关闭 neovim
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" toggle
+" nnoremap <silent> <C-b> :NERDTreeToggle<CR>
+nnoremap <silent> <Leader>b :NERDTreeToggle<CR>
+" set encoding=UTF-8 " 字体/图标配置 no need in Neovim
+
+" # fugitive 
+noremap <Leader>gs :Gstatus<CR>
+noremap <Leader>gp :Gpush<CR>
+noremap <Leader>gu :Gpush -u origin HEAD<CR>
+noremap <Leader>gl :Gpull<CR>
+
+" # vim-plug
+noremap <Leader>ii :PlugInstall<CR>
+
+" # fzf
+nnoremap <C-p> :FZF<CR>
+" 设置目标文件打开位置 (新 tab，below，vertical, 当前 tab: enter)
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit'
+  \}
+
+" 配置 fzf 使用 silversearcher-ag 来搜索，可以识别 .gitignore 中文件如 node_modules
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+
+" # coc.vim
+let g:coc_config_home = $FEVIM . '/nvim/config'
+let g:coc_data_home = $FEVIM
+let g:coc_global_extensions = [
+  \ 'coc-emmet',
+  \ 'coc-css',
+  \ 'coc-html',
+  \ 'coc-json',
+  \ 'coc-prettier',
+  \ 'coc-tsserver'
+  \]
+
+" use <cr> select and format code
+" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" use <tab> to nav
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" <tab>
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+
+let g:python3_host_prog = $HOME . '/.asdf/shims/python3'
+
+" # deoplete
+" let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_smart_case = 1
+
+" call deoplete#custom#source('')
+
+" Languages
+"   Go 
+
+let g:go_template_autocreate = 0
 
 
-let $XDG_CONFIG_HOME=$XDG_CONFIG_HOME_BAK
-let $VIMTERM=1
-let s:NVIM_HOME=$FEVIM . "/nvim/"
 
-" misc
+" Misc
+
+" mapping
+
+" openfile in tab 
+noremap <c-t> :tabe 
+
 " noremap <Leader>nh :nohl<CR>
 " fn+f9
 noremap <f9> :nohl<CR>
-noremap <Leader>q :q<CR>
-noremap <Leader>x :wq<CR>
+noremap <Leader>q :wq<CR>
+" noremap <Leader>x :wq<CR>
+
+" remap recording q
+nnoremap <Leader><Leader>q q
+nnoremap q :q<CR>
 " noremap <Leader>tp :tab sb 2<CR>
 " vert belowright sb 2
 " sb 2
@@ -148,6 +190,11 @@ nnoremap <C-K> :bprev<CR>
 nnoremap <Leader>l :ls<CR>:b<Space>
 
 " copy/paste
+
+noremap <Leader>y "*y
+noremap <Leader>p "*p
+noremap <Leader>Y "+y
+noremap <Leader>P "+p
 
 " color
 if (has("termguicolors"))
@@ -195,6 +242,8 @@ function! OpenTerminal()
   :silent exec "split term://" . l:CUR_DIR . "//zsh"
   " !cd $CURRENT_DIR
   resize 10
+  " scrolloff
+  set so=0
 endfunction
 nnoremap <C-n> :call OpenTerminal()<CR>
 
@@ -245,68 +294,8 @@ nnoremap <A-l> <C-w>l
 au! BufNewFile,BufRead *.svelte set ft=html
 
 
-" Config
 
-" TODO: check whether theme has been installed
-colorscheme dracula
-
-" # NERDTree
-let g:NERDTreeShowHidden = 1
-let g:NERDTreeMinimalUI = 1
-let g:NERDTreeIgnore = []
-let g:NERDTreeStatusline = ''
-
-" 仅有 NERDTree 时关闭 neovim
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" toggle
-" nnoremap <silent> <C-b> :NERDTreeToggle<CR>
-nnoremap <silent> <Leader>b :NERDTreeToggle<CR>
-" set encoding=UTF-8 " 字体/图标配置 no need in Neovim
-
-" # fugitive 
-noremap <Leader>gs :Gstatus<CR>
-noremap <Leader>gp :Gpush<CR>
-noremap <Leader>gu :Gpush -u origin HEAD<CR>
-noremap <Leader>gl :Gpull<CR>
-
-" # vim-plug
-noremap <Leader>ii :PlugInstall<CR>
-
-" # fzf
-nnoremap <C-p> :FZF<CR>
-" 设置目标文件打开位置 (新 tab，below，vertical, 当前 tab: enter)
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-s': 'split',
-  \ 'ctrl-v': 'vsplit'
-  \}
-
-" 配置 fzf 使用 silversearcher-ag 来搜索，可以识别 .gitignore 中文件如 node_modules
-let $FZF_DEFAULT_COMMAND = 'ag -g ""'
-
-" # coc.vim
-let g:coc_config_home = $FEVIM . '/nvim/config'
-let g:coc_data_home = $FEVIM
-let g:coc_global_extensions = [
-  \ 'coc-emmet',
-  \ 'coc-css',
-  \ 'coc-html',
-  \ 'coc-json',
-  \ 'coc-prettier',
-  \ 'coc-tsserver'
-  \]
-
-
-" Dev
-let s:dev_conf=$FEVIM . '/nvim/dev.vim'
-exec "source " . s:dev_conf
-
-" ## Django
-autocmd FileType python set sw=4
-autocmd FileType python set ts=4
-autocmd FileType python set sts=4
 " Misc 
-
 
 command! -nargs=+ Say :echo "<args>"
 
@@ -359,7 +348,7 @@ endfunction
 map <silent> <Leader><Leader>r :call RunFile()<CR>
 
 function! FullScreen()
-  let l:scripts_home=s:NVIM_HOME . "scripts/"
+  let l:scripts_home=$FEVIM_HOME . "scripts/"
   " echo l:scripts_home 
   " echo l:scripts_home . 'gofs.applescript'
   let l:cmd='!cd ' . l:scripts_home . ' && ./gofs.applescript'
@@ -371,31 +360,60 @@ endfunction
 " map <A-f> :call FullScreen()<CR>
 map <Leader><Leader>f :call FullScreen()<CR>
 
+" https://stackoverflow.com/questions/7069927/in-vimscript-how-to-test-if-a-window-is-the-last-window
+function! CloseOrQuit()
+  " if this window is last on screen quit, if not close
+  if winbufnr(2) == -1
+    quit!
+  else
+    close
+  endif
+endfunction
+
 augroup terminal
   autocmd!
   " autocmd TermClose * if getline('$') == 'Exit 0' | close | endif 
   " autocmd TermClose * echom "GetLine" . getline('$') . "END"
-  au TermClose * close
+  " au TermClose * close
+  au TermClose * :call CloseOrQuit()<CR>
 augroup end
 
-" Scripts
+" Bind outside program
 
 noremap <Leader><Leader>m :silent exec "!" . $FEVIM_SCRIPTS . "/playfb2k.applescript"<CR>
+noremap <Leader><Leader>b :vs term://browsh
+let t:BROWSH_CONF=$HOME . '/Library/Application Support/browsh/config.toml'
+noremap <Leader><Leader>eb :sp t:BROWSH_CONF<CR>
 
 " templates (custom) use vime-template
 " if has("autocmd")
-"   let templates_dir=s:NVIM_HOME . "templates"
+"   let templates_dir=$FEVIM_HOME . "templates"
 "   silent echo templates_dir
 "   aug templates
 "     au BufNewFile *.sh 0r templates_dir/skeleton.sh
 "   aug END
 " endif
 
-" TODO: echo extensions >> .gitignore
+" Dev
 
-" TODO: 处理中英文切换
-" autocmd insertFile
-" insert (en-mode)
-" count shift pressed count 
-" autocmd leave insert
-" should call press shift
+let s:DEV_CONF=$FEVIM . '/nvim/dev.vim'
+exec "source " . s:DEV_CONF
+
+" ## Django
+autocmd FileType python set sw=4
+autocmd FileType python set ts=4
+autocmd FileType python set sts=4
+
+" autocmd FileType asm colorscheme default
+" au * * colorscheme dracula
+" au * asm colorscheme default
+" toggle colorscheme
+function! ToggleCS()
+  if g:colors_name == "default"
+    colorscheme dracula
+  else
+    colorscheme default
+  endif
+endfunction
+
+noremap <Leader><Leader>c :call ToggleCS()<CR>
