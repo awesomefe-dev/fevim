@@ -1,0 +1,109 @@
+
+" Refs
+"   https://vim.fandom.com/wiki/Working_with_Unicode
+"   https://stackoverflow.com/questions/840900/vim-sourcing-based-on-a-string
+"   https://blog.csdn.net/longerandlonger/article/details/7266055
+"   https://www.jb51.net/article/77348.htm
+"   https://zhuanlan.zhihu.com/p/21328642 可能是 Windows 下最漂亮的 Gvim 配置了
+"
+"  tab 中打开 help 文档
+"    https://stackoverflow.com/questions/3131393/remapping-help-in-vim-to-open-in-a-new-tab
+
+"    https://stackoverflow.com/questions/7513380/vim-change-x-function-to-delete-buffer-instead-of-save-quit/7515418#7515418
+
+"  不可见字符
+"    https://zhuanlan.zhihu.com/p/25801800
+"    https://blog.csdn.net/wusecaiyun/article/details/50435416
+"    https://vimjc.com/vim-display-unprintable-character.html
+"    https://vim.fandom.com/wiki/Entering_special_characters
+"  key mapping
+"    https://www.johnhawthorn.com/2012/09/vi-escape-delays/
+
+" Todos
+"   查询 cursor 所在位置 关键字 的帮助文档信息
+
+# font:
+
+https://zhuanlan.zhihu.com/p/25418424
+在Windows系统中，可以在控制面板中检查字体列表
+:set guifont=*命令，来打开字体选择对话框
+
+https://vim.fandom.com/wiki/Setting_the_font_in_the_GUI
+if has("gui_running")
+  if has("gui_gtk2") || has("gui_gtk3")
+    set guifont=Courier\ New\ 11
+  elseif has("gui_photon")
+    set guifont=Courier\ New:s11
+  elseif has("gui_kde")
+    set guifont=Courier\ New/11/-1/5/50/0/0/0/1/0
+  elseif has("x11")
+    set guifont=-*-courier-medium-r-normal-*-*-180-*-*-m-*-*
+  else
+    set guifont=Courier_New:h11:cDEFAULT
+  endif
+endif
+
+https://blog.csdn.net/rrrrssss00/article/details/7255700
+优先设置 utf-8
+为中英文分别设置字体 单字节字符和双字节字符分别显示
+  guifont
+  guifontwide
+幼圆字体 https://www.onlinedown.net/soft/578418.htm
+# copy past:
+https://linuxize.com/post/how-to-copy-cut-paste-in-vim/
+
+execute:
+https://vim.fandom.com/wiki/Multiple_commands_at_once
+:execute 'normal "ayiw' | echo @a
+
+# tab
+https://blog.csdn.net/ghostyusheng/article/details/77893780
+
+# cross-platform
+https://gist.github.com/GopinathMR/1100054
+
+# 配置
+
+https://blog.csdn.net/zxy9602/article/details/79439257
+https://blog.csdn.net/linshuhe1/article/details/87252393
+https://www.cnblogs.com/aaronLinux/p/5720754.html
+https://github.com/aaronRong
+
+# backup swap undo
+https://coderwall.com/p/sdhfug/vim-swap-backup-and-undo-files
+https://vim.fandom.com/wiki/Remove_swap_and_backup_files_from_your_working_directory
+
+# plug
+
+https://github.com/junegunn/vim-plug
+
+Windows (PowerShell)
+iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |`
+    ni $HOME/vimfiles/autoload/plug.vim -Force
+
+# Ctrl-S 可能出现的问题
+https://unix.stackexchange.com/questions/72086/ctrl-s-hangs-the-terminal-emulator
+https://www.cnblogs.com/wbtcookie/p/4572385.html
+
+# uppercase
+gU / gu
+
+查看 aardio 源码
+https://error4hack.com/how-to-decompile-and-edit-exe-files/
+https://www.52pojie.cn/thread-12865-1-1.html [PEtools] PEiD V0.95汉化版
+https://www.52pojie.cn/forum-4-1.html
+https://www.52pojie.cn/thread-69716-1-1.html 如何快速判断一个文件是否为病毒
+
+https://blog.csdn.net/linshuhe1/article/details/87252393
+https://github.com/dracula/vim
+https://github.com/junegunn/vim-plug
+https://www.jb51.net/article/120372.htm
+https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/invoke-webrequest?view=powershell-7.1
+https://github.com/neolee/pilot
+https://www.jb51.net/article/120372.htm
+https://www.windowscentral.com/how-create-and-run-your-first-powershell-script-file-windows-10
+https://docs.microsoft.com/en-us/powershell/scripting/learn/ps101/09-functions?view=powershell-7.1
+https://begriffs.com/posts/2019-07-19-history-use-vim.html
+https://learnvimscriptthehardway.stevelosh.com/chapters/43.html
+https://junegunn.kr/2013/09/writing-my-own-vim-plugin-manager
+https://github.com/tpope/vim-sensible

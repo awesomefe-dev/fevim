@@ -1,0 +1,1 @@
+let SOME_VAR=$PLAY_DEPS_KM

@@ -1,0 +1,51 @@
+windows 下逆向工具
+https://down.52pojie.cn/Tools/
+https://www.52pojie.cn/thread-709699-1-1.html
+https://www.52pojie.cn/thread-1358649-1-1.html 玩玩破解，写给新人看
+https://www.52pojie.cn/thread-984024-1-1.html kali下fcrackzip和john破解zip密码
+https://www.52pojie.cn/thread-612179-1-1.html 【汉化教程】--第1课：批量文件目录扫描（需要Notepad++软件）
+https://www.52pojie.cn/thread-350397-1-1.html 七周年礼物第五弹之一：吾爱破解专用版Ollydbg
+
+https://docs.python.org/3/howto/pyporting.html
+
+
+https://www.python.org/
+https://docs.python.org/3/whatsnew/index.html
+
+https://www.lua.org/
+https://www.lua.org/download.html
+http://luabinaries.sourceforge.net/
+https://github.com/rjpcomputing/luaforwindows Lua5.1.5
+https://luarocks.org/ LuaRocks is the package manager for Lua modules.
+
+太吾绘卷
+https://zh.wikipedia.org/wiki/%E5%A4%AA%E5%90%BE%E7%BB%98%E5%8D%B7
+
+避免使用 rm 
+https://apple.stackexchange.com/questions/17622/how-can-i-make-rm-move-files-to-the-trash-can
+https://github.com/LaiJingli/rmtrash
+https://github.com/PhrozenByte/rmtrash
+
+vim -u NONE
+  https://vi.stackexchange.com/questions/6112/how-can-i-get-vim-to-ignore-all-user-configuration-as-if-it-were-freshly-instal
+
+INGW64 下安装 gcc
+  https://www.cygwin.com/
+https://superuser.com/questions/1294343/install-gcc-in-git-for-windows-bash-environment
+  修改 guess 为 mingw
+  生成 lua54.dll 在 src 中 https://www.cnblogs.com/tocy/p/windows_dll_searth_path.html
+https://sourceforge.net/projects/mingw-w64/
+https://superuser.com/questions/405342/mingw-bash-profile
+  PATH 配置: export PATH="/c/Program Files/mingw-w64/x86_64-8.1.0-win32-seh-rt_v6-rev0/mingw64/bin:$PATH"
+  安装 LuaRock: 
+    http://luarocks.github.io/luarocks/releases/
+    https://github.com/luarocks/luarocks/wiki/Installation-instructions-for-Windows
+https://www.runoob.com/lua/lua-tutorial.html
+https://zh.wikipedia.org/wiki/Roguelike
+
+暗黑破坏神》的故事背景是怎样的？https://www.zhihu.com/question/26013764
+
+https://scoop.sh/
+
+Godot
+  https://godotengine.org/download

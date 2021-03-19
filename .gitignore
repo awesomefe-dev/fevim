@@ -3,3 +3,10 @@ configstore
 .elixir_ls
 memos.json
 extensions
+commands
+list-commands-history.json
+list-lists-history.json
+lists
+list-extensions-history.json
+plugs
+logs

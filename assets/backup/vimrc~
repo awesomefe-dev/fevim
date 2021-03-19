@@ -1,0 +1,136 @@
+
+" Refs
+"   https://vim.fandom.com/wiki/Working_with_Unicode
+"   https://stackoverflow.com/questions/840900/vim-sourcing-based-on-a-string
+"   https://blog.csdn.net/longerandlonger/article/details/7266055
+"   https://www.jb51.net/article/77348.htm
+"   https://zhuanlan.zhihu.com/p/21328642 可能是 Windows 下最漂亮的 Gvim 配置了
+"
+"  tab 中打开 help 文档
+"    https://stackoverflow.com/questions/3131393/remapping-help-in-vim-to-open-in-a-new-tab
+
+"    https://stackoverflow.com/questions/7513380/vim-change-x-function-to-delete-buffer-instead-of-save-quit/7515418#7515418
+
+"  不可见字符
+"    https://zhuanlan.zhihu.com/p/25801800
+"    https://blog.csdn.net/wusecaiyun/article/details/50435416
+"    https://vimjc.com/vim-display-unprintable-character.html
+"    https://vim.fandom.com/wiki/Entering_special_characters
+"  key mapping
+"    https://www.johnhawthorn.com/2012/09/vi-escape-delays/
+
+" Todos
+"   查询 cursor 所在位置 关键字 的帮助文档信息
+
+" ENV
+let $PLAY='D:\\play\vimconf\'
+" !mkdir D:\\play\vimconf\runtime\
+let $PLAY_CONF=$PLAY . 'vimrc'
+let $PLAY_RTP=$PLAY . 'runtime/'
+let $FULL_RTP=&rtp . ',' . $PLAY_RTP
+set rtp=$FULL_RTP
+
+let $PLAY_DEPS=$PLAY . 'deps/'
+let $PLAY_DEPS_KM=$PLAY . 'deps/keymap.vim'
+let $PLAY_DEPS_G=$PLAY . 'deps/general.vim'
+let $PLAY_DEPS_PLUG=$PLAY . 'deps/plugs.vim'
+let $PLAY_DEPS_PC=$PLAY . 'deps/plugconf.vim'
+let $PLAY_DEPS_DR=$PLAY . 'deps/dryrun.vim'
+
+let $PLAY_BACKUP=$PLAY . 'backup/'
+let $PLAY_SWAP=$PLAY . 'swap/'
+let $PLAY_UNDO=$PLAY . 'undo/'
+" rm -i *~ .*~
+
+let $CONF=$VIM . '/_vimrc'
+
+" Plugins
+exec "so " . $PLAY_DEPS_PLUG
+"
+" Basic Conf (without plugin)
+"
+
+" General
+exec "so " . $PLAY_DEPS_G
+
+" Encoding {{{
+let $LANG='en_US.UTF-8'
+if has("multi_byte")
+  " UTF-8
+  " under windows: original encoding cp936
+  set encoding=utf-8
+  set termencoding=utf-8
+  set formatoptions+=mM
+  " gbk2312,gb18030,cp936
+  set langmenu=zh_CN
+  set fileencodings=utf-8,gbk
+  " / 是 escape token
+  if v:lang =~? '^/(zh/)|/(ja/)|/(ko/)'
+    set ambiwidth=double
+  endif
+  if has("win32")
+    " redefine menu
+    source $VIMRUNTIME/delmenu.vim
+    source $VIMRUNTIME/menu.vim
+    language message zh_CN.utf-8
+  endif
+else
+  echoerr "Sorry, (G)vim was not compiled with +multi_byte option"
+endif
+" }}}
+
+" GUI {{{
+colorscheme dracula 
+
+set cursorline
+set cursorcolumn
+set hlsearch
+set number
+" size of Window
+set lines=35 columns=80
+" new splitted window
+set splitbelow
+set splitright
+" hide menu etc.
+set guioptions-=T
+set guioptions-=m
+set guioptions-=L
+set guioptions-=r
+set guioptions-=b
+" apply native tab style (not gui tab style)
+set guioptions-=e
+
+" set nolist
+set list
+" set listchars=tab:→\ ,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:»
+set listchars=eol:¶,tab:>-,trail:~,extends:>,precedes:<
+" set guifont=Inconsolata:h12:cANSI
+if has('gui_running')
+  if has('win16') || has('win32') || has('win95') || has('win64')
+    " font config style under windows
+    set guifont=Consolas:h11,Courier_New:h11:cANSI
+    set guifontwide=幼圆:b:h11:cGB2312
+  else
+    " font config style under macOS
+    set guifont=Monaco:h11
+    " font config style under Linux 
+    " set guifont=MiscFixed\ Semi-Condensed\ 10
+  endif
+endif
+" }}}i
+
+" Key mapping
+exec "so " . $PLAY_DEPS_KM
+
+filetype indent plugin on
+
+augroup ft_vim
+  " 打开配置文件的时候 vim 就会折叠部分片段
+  au!
+  au FileType vim setlocal foldmethod=marker
+augroup END
+
+" Plugin Conf
+
+" Dry Run
+exec "so " . $PLAY_DEPS_DR

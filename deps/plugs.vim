@@ -1,5 +1,7 @@
+let $PLAY_PLUGS=$PLAY . '/plugs'
 
-call plug#begin($FEVIM_PLUG)
+" Initialize plugin system
+call plug#begin($PLAY_PLUGS)
 
 Plug 'dracula/vim'
 
@@ -77,5 +79,4 @@ Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 
 " End
 Plug 'ryanoasis/vim-devicons'
-
 call plug#end()
