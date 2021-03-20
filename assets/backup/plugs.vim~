@@ -1,6 +1,0 @@
-let $PLAY_PLUGS=$PLAY . 'plugs/'
-
-" Initialize plugin system
-call plug#begin($PLAY_PLUGS)
-
-call plug#end()
