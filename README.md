@@ -1,11 +1,9 @@
-    ______ ______  __      ___           
-    |  ____|  ____| \ \    / (_)          
-    | |__  | |__     \ \  / / _ _ __ ___  
-    |  __| |  __|     \ \/ / | | '_ ` _ \ 
+    ______ ______  __      ___
+    |  ____|  ____| \ \    / (_)
+    | |__  | |__     \ \  / / _ _ __ ___
+    |  __| |  __|     \ \/ / | | '_ ` _ \
     | |    | |____     \  /  | | | | | | |
     |_|    |______|     \/   |_|_| |_| |_|
-
-> Clean FrontEnd
 
 ## 插件管理
 
@@ -17,13 +15,16 @@ vim-plug (https://github.com/junegunn/vim-plug) <sup>[1]</sup>
 
 ## 主题
 
-dracula  <sup>[1]</sup>
+dracula <sup>[1]</sup>
 
 ## File Explorer 文件管理
 
-NERDTree  <sup>[1]</sup>
+NERDTree <sup>[1]</sup>
+
     Plug 'scrooloose/nerdtree'
+
     Plug 'ryanoasis/vim-devicons'
+
       https://github.com/ryanoasis/vim-devicons#installation
       必须作为最后一项载入
       安装字体
@@ -65,7 +66,7 @@ https://github.com/tpope/vim-fugitive tpope/vim-fugitive: fugitive.vim: A Git wr
 commands:
 
     :Gstatus
-      sub-commands 
+      sub-commands
         g? view sub-commands
         cc commit
         ce amend
@@ -75,11 +76,11 @@ commands:
     :Gpull
     :Gblame
 
-## TODO: 
+## TODO:
 
 多主题管理
 
-React / Vue / Svelte 
+React / Vue / Svelte
 
 ## References:
 
@@ -87,16 +88,14 @@ React / Vue / Svelte
 
 2. [My Neovim Setup](https://dev.to/vshl/my-neovim-setup-31n3)
 
-
 ## Links:
 
 https://www.freecodecamp.org/news/a-guide-to-modern-web-development-with-neo-vim-333f7efbf8e2/
-  denite.nvim https://github.com/Shougo/denite.nvim
+denite.nvim https://github.com/Shougo/denite.nvim
 
 https://medium.com/@SpaceVim/tips-about-the-terminal-of-vim-and-neovim-6a2dfa67ce5e Tips about the terminal of vim and neovim | by SpaceVim | Medium
 
 https://blog.csdn.net/yihuajack/article/details/108675062
-
 
 https://hackernoon.com/how-to-use-vim-for-frontend-development-2020-edition-dac83yyh
 
@@ -111,8 +110,3 @@ https://spacevim.org/
 https://www.fullstacklibrary.com/p/vim-for-front-end-web-developers
 
 https://github.com/victorvoid/vim-frontend victorvoid/vim-frontend: Vim Frontend is a Vim configured for Front-end Developers.
-
-
-
-
-
